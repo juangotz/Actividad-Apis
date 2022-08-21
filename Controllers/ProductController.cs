@@ -7,7 +7,7 @@ using Api.Repository;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[ProductoController]")]
+    [Route("[controller]")]
     public class ProductController : ControllerBase
     {
         [HttpGet]
@@ -59,6 +59,24 @@ namespace Api.Controllers
                     priceSell = postProduct.priceSell,
 
                 });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        [HttpPost]
+        [HttpPut]
+        public static bool LoadSale(SaleProduct saleProduct)
+        {
+            try
+            {
+                return ProductHandler.CreateSoldProduct(saleProduct.comment) & ProductHandler.UpdateStock(new Product
+                {
+                    id = saleProduct.id
+                });
+
             }
             catch (Exception ex)
             {
