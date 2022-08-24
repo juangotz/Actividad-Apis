@@ -47,7 +47,7 @@ namespace Api.Repository
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
                     string queryDelete = "DELETE FROM [SistemaGestion].[dbo].[Producto] WHERE Id = @idProducto";
-                    SqlParameter idParameter = new SqlParameter("IdProducto", System.Data.SqlDbType.BigInt)
+                    SqlParameter idParameter = new SqlParameter("@IdProducto", System.Data.SqlDbType.BigInt)
                     {
                         Value = id
                     };
@@ -81,11 +81,11 @@ namespace Api.Repository
                     string queryUpdate = "UPDATE [SistemaGestion].[dbo].[Producto]" +
                         "SET Descripciones = @nombre WHERE Id = @idProducto";
 
-                    SqlParameter idParameter = new SqlParameter("idProducto", System.Data.SqlDbType.BigInt)
+                    SqlParameter idParameter = new SqlParameter("@idProducto", System.Data.SqlDbType.BigInt)
                     {
                         Value = product.id
                     };
-                    SqlParameter nameParameter = new SqlParameter("nombre", System.Data.SqlDbType.Char)
+                    SqlParameter nameParameter = new SqlParameter("@nombre", System.Data.SqlDbType.Char)
                     {
                         Value = product.description
                     };
@@ -159,77 +159,6 @@ namespace Api.Repository
                             result = true;
                         }
                     }
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return result;
-            }
-        }
-        public static bool CreateSoldProduct(string comment)
-        {
-            bool result = false;
-            try
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    string queryCreate = "INSERT INTO [SistemaGestion].[dbo].[Venta] " +
-                        "(Comentarios) " +
-                        "VALUES (@comentarios)";
-
-                    SqlParameter commentParameter = new SqlParameter("@comentarios", System.Data.SqlDbType.Char)
-                    {
-                        Value = comment
-                    };
-
-                    sqlConnection.Open();
-                    using (SqlCommand sqlCommand = new SqlCommand(queryCreate, sqlConnection))
-                    {
-                        sqlCommand.Parameters.Add(commentParameter);
-                        int rowsAffected = sqlCommand.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            result = true;
-                        }
-                    }
-                    sqlConnection.Close();
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return result;
-            }
-        }
-        public static bool UpdateStock(Product product)
-        {
-            bool result = false;
-            try
-            {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-                {
-                    string queryUpdate = "UPDATE Producto SET Stock = Stock-1 WHERE Id = @IdProducto";
-
-                    SqlParameter idParameter = new SqlParameter("idProducto", System.Data.SqlDbType.BigInt)
-                    {
-                        Value = product.id
-                    };
-                    sqlConnection.Open();
-
-                    using (SqlCommand sqlCommand = new SqlCommand(queryUpdate, sqlConnection))
-                    {
-                        sqlCommand.Parameters.Add(idParameter);
-                        int rowsAffected = sqlCommand.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            result = true;
-                        }
-                    }
-
-                    sqlConnection.Close();
                 }
                 return result;
             }
