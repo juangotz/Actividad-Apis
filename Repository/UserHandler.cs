@@ -111,6 +111,9 @@ namespace Api.Repository
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
+                    string queryCreate = "INSERT INTO [SistemaGestion].[dbo].[Usuario]"
+                    + "(Nombre, Apellido, NombreUsuario, Contraseña, Mail) "
+                    + "VALUES (@nombre, @apellido, @nombreUsuario, @contraseña, @mail)";
                     SqlParameter nameParameter = new SqlParameter("@nombre", System.Data.SqlDbType.Char);
                     nameParameter.Value = user.name;
                     SqlParameter surnameParameter = new SqlParameter("@apellido", System.Data.SqlDbType.Char);
@@ -121,9 +124,7 @@ namespace Api.Repository
                     mailParameter.Value = user.email;
                     SqlParameter passwordParameter = new SqlParameter("@contraseña", System.Data.SqlDbType.Char);
                     passwordParameter.Value = user.password;
-                    string queryCreate = "INSERT INTO [SistemaGestion].[dbo].[Usuario]"
-                    + "(Nombre, Apellido, NombreUsuario, Contraseña, Mail) "
-                    + "VALUES ('@nombre', '@apellido', '@nombreUsuario', '@contraseña', '@mail')";
+
 
                     sqlConnection.Open();
 
@@ -156,7 +157,7 @@ namespace Api.Repository
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCmd = new SqlCommand("SELECT * FROM [SistemaGestion].[dbo].[Usuario] " +
-                    "WHERE NombreUsuario = @nombreUsuario AND Contraseña = Contraseña", sqlConnection))
+                    "WHERE NombreUsuario = @nombreUsuario AND Contraseña = @Contraseña", sqlConnection))
                 {
                     SqlParameter userParameter = new SqlParameter("@nombreUsuario", System.Data.SqlDbType.Char)
                     {
